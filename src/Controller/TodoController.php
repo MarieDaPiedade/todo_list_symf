@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TodoController extends AbstractController
 {
-    private $todoRepository;
+    protected $todoRepository;
 
     public function __construct(TodoRepository $todoRepository)
     {
@@ -38,7 +38,8 @@ class TodoController extends AbstractController
      * 
      * @Route("todo/{id}", name="show_todo")
      */
-    public function showTodo(int $id) {
+    public function showTodo(int $id)
+    {
 
         $todo = $this->todoRepository->find($id);
         return $this->render('todo/details.html.twig', [
@@ -64,11 +65,12 @@ class TodoController extends AbstractController
      * @param integer $id
      * @return Response
      * 
-     * @Route("edit/state/{id}", name="todo_state_edit")
+     * @Route("edit/state/{id}", name="todo_state_edit", methods={"POST"})
      */
     public function editState(Request $request, int $id): Response
     {
-        $todo = $this->projectRepository->find($id);
+        $todo = $this->todoRepository->find($id);
+
         if ($request->isXmlHttpRequest()) {
             $todo->setState($request->request->get('state'));
             $this->todoRepository->add($todo);
@@ -76,7 +78,6 @@ class TodoController extends AbstractController
         } else {
             $json['response'] = "La requête n'a pas aboutie";
         }
-
         return new JsonResponse($json);
     }
 }
