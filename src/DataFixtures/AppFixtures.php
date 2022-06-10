@@ -13,7 +13,7 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create("fr_FR");
 
-        $state = ["A faire", "En cours", "Terminée"];
+        $state = ["Todo", "Completed"];
 
         for ($i = 0; $i < 10; $i++) {
             $todo = new Todo();
