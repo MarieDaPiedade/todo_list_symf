@@ -13,13 +13,11 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create("fr_FR");
 
-        $state = ["Todo", "Completed"];
-
         for ($i = 0; $i < 10; $i++) {
             $todo = new Todo();
             $todo
                 ->setTitle($faker->sentence(mt_rand(3, 5)))
-                ->setState($faker->randomElement($state))
+                ->setState("Todo")
                 ->setDescription($faker->paragraph());
 
             $manager->persist($todo);

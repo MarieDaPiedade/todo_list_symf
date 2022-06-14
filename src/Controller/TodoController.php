@@ -73,6 +73,7 @@ class TodoController extends AbstractController
 
         if ($request->isXmlHttpRequest()) {
             $todo->setState($request->request->get('state'));
+            // $todo->setTitle($request->request->get('title'));
             $this->todoRepository->add($todo);
             $json['response'] = 'success';
         } else {

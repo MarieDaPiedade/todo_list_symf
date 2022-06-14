@@ -1,10 +1,13 @@
 {% extends 'base.html.twig' %}
 
-
 {% block body %}
-    
-<div class="w-50 m-auto">
-	<h1>{{todo.title}}</h1>
-	<p class="mt-5">{{todo.description}}</p>
-</div>
+
+	<div class="card border-info mb-3 w-50 m-auto">
+		<div class="card-header bg-info display-4" style="--bs-bg-opacity: .5;">{{todo.title}}</div>
+		<div class="card-body p-5">
+			<h5 class="card-title mb-4 display-6 text-decoration-underline">Détails</h5>
+			<p class="card-text">{{todo.description}}</p>
+		</div>
+	</div>
+
 {% endblock %}
