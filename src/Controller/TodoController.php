@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Todo;
+use App\Form\TodoFormType;
 use App\Repository\TodoRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,10 +15,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class TodoController extends AbstractController
 {
     protected $todoRepository;
+    protected $em;
 
-    public function __construct(TodoRepository $todoRepository)
+    public function __construct(TodoRepository $todoRepository, EntityManagerInterface $em)
     {
         $this->todoRepository = $todoRepository;
+        $this->em = $em;
     }
 
     /**
@@ -40,26 +45,43 @@ class TodoController extends AbstractController
      */
     public function showTodo(int $id)
     {
-
         $todo = $this->todoRepository->find($id);
         return $this->render('todo/details.html.twig', [
             'todo' => $todo,
         ]);
     }
 
-    // /**
-    //  * @Route("create")
-    //  */
-    // public function create()
-    // {
+    /**
+     * Create a todo
+     *
+     * @param Request $request
+     * @return void
+     * 
+     * @Route("create", name="todo_create")
+     */
+    public function create(Request $request)
+    {
 
+        $todo = new Todo();
+        $form = $this->createForm(TodoFormType::class, $todo);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $todo->setState("Todo");
+            $this->em->persist($todo);
+            $this->em->flush();
 
-    //     return $this->render('todo/create.html.twig');
-    // }
+            $this->addFlash('success', 'La Todo a bien été créée !');
+            return $this->redirectToRoute('index');
+        }
+
+        return $this->render('todo/create.html.twig', [
+            'formView' => $form->createView(),
+        ]);
+    }
 
     /**
-     * Undocumented function
+     * change the state of the todo
      *
      * @param Request $request
      * @param integer $id
@@ -73,7 +95,6 @@ class TodoController extends AbstractController
 
         if ($request->isXmlHttpRequest()) {
             $todo->setState($request->request->get('state'));
-            // $todo->setTitle($request->request->get('title'));
             $this->todoRepository->add($todo);
             $json['response'] = 'success';
         } else {

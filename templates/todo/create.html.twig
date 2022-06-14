@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout d'une todo
+{% endblock %}
+
+{% block body %}
+	<h1 class="w-25 m-auto text-info text-center mb-5">Ajoute une todo à ta liste !</h1>
+	{{form_start(formView)}}
+	{{form_errors(formView)}}
+	<div class="form-group w-50 m-auto mt-5">
+		{{form_label(formView.title)}}
+		{{form_widget(formView.title, {'attr': {'class': 'form-control form-control-lg'}})}}
+	</div>
+	<div class="form-group w-50 m-auto mt-5">
+		{{form_label(formView.description)}}
+		{{form_widget(formView.description, {'attr': {'class': 'form-control form-control-lg'}})}}
+	</div>
+	<div class="w-50 m-auto mt-5">
+		<button type="submit" class="btn btn-lg btn-info text-white" href="{{path('todo_create')}}">AJOUTER UNE TODO</button>
+	</div>
+	<div style="display: none">
+		{{form_rest(formView)}}
+	</div>
+	{{ form_end(formView)}}
+</div>{% endblock %}

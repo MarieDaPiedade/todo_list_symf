@@ -4,6 +4,15 @@
 {% endblock %}
 
 {% block body %}
+	{% for message in app.flashes('success') %}
+		<div class="alert alert-success w-25 m-auto">
+			{{ message }}
+		</div>
+	{% endfor %}
+
+	<div class="w-50 m-auto d-flex justify-content-end mb-5 mt-5">
+		<a class="btn btn-info btn-lg text-white " href="{{path('todo_create')}}" role="button">CRÉER UNE TODO</a>
+	</div>
 
 	<ul class="list-group list-group-flush w-50 m-auto mb-5">
 		{% for todo in todos|reverse %}
@@ -29,33 +38,33 @@
 {% block javascripts %}
 	<script language="javascript">
 		let tab = [];
-			$(document).on('change', '#state', function (e) {
-			e.preventDefault();
-			let id = $(this).data('id');
-			let state = $(this).val();
-			let title = $(".title-" + id).text();
-			let url = '{{ path('todo_state_edit', {'id' : 'objectId'}) }}';
-			url = url.replace('objectId', id);
-			$.ajax({
-			url: url,
-			type: 'POST',
-			data: {
-			'id': id,
-			'state': state,
-			'title': title
-			},
-			cache: false
-			}).done(function (data) {
-			$(".remove").empty();
-			tab.push(title);
-			jQuery.each(tab, function (index, element) {
-			$('.' + id).remove();
-			$('.remove').append("<a class='list-group-item list-group-item-action p-4 text-decoration-line-through text-danger disabled'>" + element + "</a>");
-			});
-			toastr.success('Mise à jour effectuée avec succès');
-			}).fail(function (data) {
-			toastr.error('Erreur lors de la mise à jour');
-			})
-			});
+$(document).on('change', '#state', function (e) {
+e.preventDefault();
+let id = $(this).data('id');
+let state = $(this).val();
+let title = $(".title-" + id).text();
+let url = '{{ path('todo_state_edit', {'id' : 'objectId'}) }}';
+url = url.replace('objectId', id);
+$.ajax({
+url: url,
+type: 'POST',
+data: {
+'id': id,
+'state': state,
+'title': title
+},
+cache: false
+}).done(function (data) {
+$(".remove").empty();
+tab.push(title);
+jQuery.each(tab, function (index, element) {
+$('.' + id).remove();
+$('.remove').append("<a class='list-group-item list-group-item-action p-4 text-decoration-line-through text-danger disabled'>" + element + "</a>");
+});
+toastr.success('Mise à jour effectuée avec succès');
+}).fail(function (data) {
+toastr.error('Erreur lors de la mise à jour');
+})
+});
 	</script>
 {% endblock %}
