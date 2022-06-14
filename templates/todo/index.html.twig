@@ -11,26 +11,30 @@
 	{% endfor %}
 
 	<div class="w-50 m-auto d-flex justify-content-end mb-5 mt-5">
-		<a class="btn btn-info btn-lg text-white " href="{{path('todo_create')}}" role="button">CRÉER UNE TODO</a>
+		<a class="btn btn-info btn-lg text-white" href="{{path('todo_create')}}" role="button">CRÉER UNE TODO</a>
 	</div>
 
 	<ul class="list-group list-group-flush w-50 m-auto mb-5">
-		{% for todo in todos|reverse %}
-			<div class="list-group-item list-group-item-action p-4 d-flex justify-content-between {{todo.id}}">
-				<div class="a">
-					<a href="{{path('show_todo',{'id': todo.id})}}" target='_blank' class="title-{{todo.id}} text-info">
-						{{todo.title}}
-					</a>
-				</div>
-				<div class="form-check">
-					<input class="form-check-input" type="checkbox" value="Completed" id="state" data-id={{todo.id}} name="state" data-title={{todo.title}}>
+		
+			{% for todo in todos|reverse %}
+				{% if todo.state is same as "Todo" %}
+					<div class="list-group-item list-group-item-action p-4 d-flex justify-content-between {{todo.id}}">
+						<div class="a">
+							<a href="{{path('show_todo',{'id': todo.id})}}" target='_blank' class="title-{{todo.id}} text-info">
+								{{todo.title}}
+							</a>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" value="Completed" id="state" data-id={{todo.id}} name="state" data-title={{todo.title}}>
+							<label class="form-check-label" for="completed">
+								Todo terminée
+							</label>
+						</div>
+					</div>
+				{% endif %}
+			{% endfor %}
+	
 
-					<label class="form-check-label" for="completed">
-						Todo terminée
-					</label>
-				</div>
-			</div>
-		{% endfor %}
 		<div class="list-group list-group-flush remove"></div>
 	</ul>
 {% endblock %}
