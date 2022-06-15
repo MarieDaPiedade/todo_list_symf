@@ -34,7 +34,6 @@
 				{% endif %}
 			{% endfor %}
 	
-
 		<div class="list-group list-group-flush remove"></div>
 	</ul>
 {% endblock %}
@@ -58,7 +57,8 @@ data: {
 'title': title
 },
 cache: false
-}).done(function (data) {
+})
+.done(function (data) {
 $(".remove").empty();
 tab.push(title);
 jQuery.each(tab, function (index, element) {
@@ -66,7 +66,8 @@ $('.' + id).remove();
 $('.remove').append("<a class='list-group-item list-group-item-action p-4 text-decoration-line-through text-danger disabled'>" + element + "</a>");
 });
 toastr.success('Mise à jour effectuée avec succès');
-}).fail(function (data) {
+})
+.fail(function (data) {
 toastr.error('Erreur lors de la mise à jour');
 })
 });

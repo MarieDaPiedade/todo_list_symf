@@ -24,6 +24,9 @@ class TodoController extends AbstractController
     }
 
     /**
+     * displays the home page of the todo list
+     * @return Response
+     * 
      * @Route("/", name="index")
      */
     public function index(): Response
@@ -37,7 +40,6 @@ class TodoController extends AbstractController
 
     /**
      * show the details of a todo
-     *
      * @param integer $id
      * @return void
      * 
@@ -53,7 +55,6 @@ class TodoController extends AbstractController
 
     /**
      * Create a todo
-     *
      * @param Request $request
      * @return void
      * 
@@ -82,7 +83,6 @@ class TodoController extends AbstractController
 
     /**
      * change the state of the todo
-     *
      * @param Request $request
      * @param integer $id
      * @return Response
